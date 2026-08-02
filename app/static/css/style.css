@@ -1,0 +1,114 @@
+/* Reset simples */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo geral da página */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Cabeçalho */
+header {
+    text-align: center;
+    padding: 30px;
+    background-color: #1f2937;
+    color: white;
+}
+
+/* Área principal */
+main {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Cartões */
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+/* Saldo */
+.balance {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #16a34a;
+    margin-top: 10px;
+}
+
+/* Botões */
+.actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.button {
+    text-decoration: none;
+    background-color: #2563eb;
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    transition: .2s;
+}
+
+.button:hover {
+    background-color: #1d4ed8;
+}
+
+.secondary {
+    background-color: #dc2626;
+}
+
+.secondary:hover {
+    background-color: #971313;
+}
+
+.card-movimentacao {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.cabecalho-movimentacao {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.receita {
+    color: green;
+    font-weight: bold;
+}
+
+.despesa {
+    color: red;
+    font-weight: bold;
+}
+
+.valor {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.categoria {
+    color: #666;
+}
+
+.data {
+    color: #888;
+    font-size: 14px;
+}

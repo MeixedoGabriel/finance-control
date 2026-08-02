@@ -1,35 +1,81 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Control</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<header>
-    <h1>Finance Control</h1>
-    <p>Meu primeiro sistema Full Stack com Flask. Projeto de estudo para portfólio.</p>
-</header>
+{% block title %}
+Início | Finance Control
+{% endblock %}
 
-<main>
+{% block content %}
 
-    <section>
-        <h2>Saldo Atual</h2>
-        <p>R$ 0,00</p>
-    </section>
+<section class="card">
+    <h2>Saldo Atual</h2>
+    <p class="balance">
 
-    <section>
-        <a href="/nova-receita">Nova Receita</a>
-        <a href="/nova-despesa">Nova Despesa</a>
-    </section>
+        R$ {{ "%.2f"|format(saldo) }}
 
-    <section>
-        <h2>Últimas movimentações</h2>
+    </p>
+</section>
+
+<section class="actions">
+    <a href="{{ url_for('main.nova_movimentacao') }}" class="button">Nova Receita</a>
+    <a href="{{ url_for('main.nova_movimentacao') }}" class="button secondary">Nova Despesa</a>
+</section>
+
+<section class="card">
+
+    <h2>Últimas movimentações</h2>
+
+    {% if movimentacoes %}
+
+        {% for movimentacao in movimentacoes %}
+
+            <div class="card-movimentacao">
+
+                <div class="cabecalho-movimentacao">
+
+                    {% if movimentacao.tipo == "Receita" %}
+                        <span class="tipo receita">⬆ Receita</span>
+                    {% else %}
+                        <span class="tipo despesa">⬇ Despesa</span>
+                    {% endif %}
+
+                    <span class="data">
+                        {{ movimentacao.data.strftime("%d/%m/%Y") }}
+                    </span>
+
+                </div>
+
+                <h3>{{ movimentacao.descricao }}</h3>
+
+                <p class="categoria">
+                    {{ movimentacao.categoria }}
+                </p>
+
+                <p class="valor">
+
+                    {% if movimentacao.tipo == "Receita" %}
+
+                        + R$ {{ "%.2f"|format(movimentacao.valor) }}
+
+                    {% else %}
+
+                        - R$ {{ "%.2f"|format(movimentacao.valor) }}
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
         <p>Nenhuma movimentação cadastrada.</p>
-    </section>
 
-</main>
+    {% endif %}
 
-</body>
-</html>
+</section>
+
+{% endblock %}
