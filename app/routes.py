@@ -17,19 +17,30 @@ def home():
     )
 
     saldo = 0
+    total_receitas = 0
+    total_despesas = 0
 
     for movimentacao in movimentacoes:
 
         if movimentacao.tipo == "Receita":
+
             saldo += movimentacao.valor
+            total_receitas += movimentacao.valor
 
         else:
+
             saldo -= movimentacao.valor
+            total_despesas += movimentacao.valor
+
+    quantidade_movimentacoes = len(movimentacoes)
 
     return render_template(
         "index.html",
         movimentacoes=movimentacoes,
-        saldo=saldo
+        saldo=saldo,
+        total_receitas=total_receitas,
+        total_despesas=total_despesas,
+        quantidade_movimentacoes=quantidade_movimentacoes
     )
 
 
@@ -87,3 +98,14 @@ def editar_movimentacao(id):
         "editar_movimentacao.html",
         movimentacao=movimentacao
     )
+
+
+@main.route("/excluir/<int:id>", methods=["POST"])
+def excluir_movimentacao(id):
+
+    movimentacao = Movimentacao.query.get_or_404(id)
+
+    db.session.delete(movimentacao)
+    db.session.commit()
+
+    return redirect(url_for("main.home"))

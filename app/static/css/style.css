@@ -115,3 +115,19 @@ main {
     gap: 10px;
     margin-top: 10px;
 }
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.resumo {
+    text-align: center;
+}
+
+.resumo h3 {
+    margin-bottom: 10px;
+    color: #555;
+}

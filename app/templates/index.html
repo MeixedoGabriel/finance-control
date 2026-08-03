@@ -6,13 +6,36 @@ Início | Finance Control
 
 {% block content %}
 
-<section class="card">
-    <h2>Saldo Atual</h2>
-    <p class="balance">
+<section class="dashboard">
 
-        R$ {{ "%.2f"|format(saldo) }}
+    <div class="card resumo">
+        <h3>Receitas</h3>
+        <p class="receita">
+            R$ {{ "%.2f"|format(total_receitas) }}
+        </p>
+    </div>
 
-    </p>
+    <div class="card resumo">
+        <h3>Despesas</h3>
+        <p class="despesa">
+            R$ {{ "%.2f"|format(total_despesas) }}
+        </p>
+    </div>
+
+    <div class="card resumo">
+        <h3>Saldo</h3>
+        <p class="balance">
+            R$ {{ "%.2f"|format(saldo) }}
+        </p>
+    </div>
+
+    <div class="card resumo">
+        <h3>Movimentações</h3>
+        <p class="balance">
+            {{ quantidade_movimentacoes }}
+        </p>
+    </div>
+
 </section>
 
 <section class="actions">
@@ -71,10 +94,29 @@ Início | Finance Control
                 </p>
 
                 <div class="acoes-movimentacao">
-                    <a href="{{ url_for('main.editar_movimentacao', id=movimentacao.id) }}"
-                    class="button">
+
+                    <a
+                        href="{{ url_for('main.editar_movimentacao', id=movimentacao.id) }}"
+                        class="button"
+                    >
                         Editar
                     </a>
+
+                    <form
+                        action="{{ url_for('main.excluir_movimentacao', id=movimentacao.id) }}"
+                        method="POST"
+                        onsubmit="return confirm('Tem certeza que deseja excluir esta movimentação?')"
+                    >
+
+                        <button
+                            type="submit"
+                            class="button secondary"
+                        >
+                            Excluir
+                        </button>
+
+                    </form>
+
                 </div>
 
             </div>
