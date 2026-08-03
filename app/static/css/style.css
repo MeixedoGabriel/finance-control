@@ -1,18 +1,15 @@
-/* Reset simples */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Estilo geral da página */
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f4f6f9;
     color: #333;
 }
 
-/* Cabeçalho */
 header {
     text-align: center;
     padding: 30px;
@@ -20,14 +17,12 @@ header {
     color: white;
 }
 
-/* Área principal */
 main {
     max-width: 800px;
     margin: 30px auto;
     padding: 0 20px;
 }
 
-/* Cartões */
 .card {
     background: white;
     padding: 20px;
@@ -37,7 +32,6 @@ main {
     box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 
-/* Saldo */
 .balance {
     font-size: 2rem;
     font-weight: bold;
@@ -45,7 +39,6 @@ main {
     margin-top: 10px;
 }
 
-/* Botões */
 .actions {
     display: flex;
     gap: 15px;
@@ -81,6 +74,9 @@ main {
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .cabecalho-movimentacao {
@@ -111,4 +107,11 @@ main {
 .data {
     color: #888;
     font-size: 14px;
+}
+
+.acoes-movimentacao {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
 }

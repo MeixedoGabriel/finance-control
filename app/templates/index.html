@@ -16,8 +16,14 @@ Início | Finance Control
 </section>
 
 <section class="actions">
-    <a href="{{ url_for('main.nova_movimentacao') }}" class="button">Nova Receita</a>
-    <a href="{{ url_for('main.nova_movimentacao') }}" class="button secondary">Nova Despesa</a>
+
+    <a
+        href="{{ url_for('main.nova_movimentacao') }}"
+        class="button"
+    >
+        + Nova Movimentação
+    </a>
+
 </section>
 
 <section class="card">
@@ -63,6 +69,13 @@ Início | Finance Control
                     {% endif %}
 
                 </p>
+
+                <div class="acoes-movimentacao">
+                    <a href="{{ url_for('main.editar_movimentacao', id=movimentacao.id) }}"
+                    class="button">
+                        Editar
+                    </a>
+                </div>
 
             </div>
 

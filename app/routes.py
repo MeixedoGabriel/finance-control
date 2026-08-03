@@ -57,4 +57,33 @@ def nova_movimentacao():
 
         return redirect(url_for("main.home"))
 
-    return render_template("nova_movimentacao.html")
+    return render_template(
+        "nova_movimentacao.html",
+        movimentacao=None
+    )
+
+
+@main.route("/editar/<int:id>", methods=["GET", "POST"])
+def editar_movimentacao(id):
+
+    movimentacao = Movimentacao.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        movimentacao.descricao = request.form["descricao"]
+        movimentacao.valor = float(request.form["valor"])
+        movimentacao.categoria = request.form["categoria"]
+        movimentacao.tipo = request.form["tipo"]
+        movimentacao.data = datetime.strptime(
+            request.form["data"],
+            "%Y-%m-%d"
+        ).date()
+
+        db.session.commit()
+
+        return redirect(url_for("main.home"))
+
+    return render_template(
+        "editar_movimentacao.html",
+        movimentacao=movimentacao
+    )
