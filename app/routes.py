@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from app.extensions import db
 from app.models import Movimentacao
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 
 main = Blueprint("main", __name__)
@@ -109,3 +109,95 @@ def excluir_movimentacao(id):
     db.session.commit()
 
     return redirect(url_for("main.home"))
+
+
+@main.route("/api/analytics")
+def analytics():
+
+    period = request.args.get("period", "week")
+
+    hoje = date.today()
+
+    if period == "week":
+        inicio = hoje - timedelta(days=6)
+
+    elif period == "month":
+        inicio = hoje.replace(day=1)
+
+    elif period == "year":
+        inicio = hoje.replace(month=1, day=1)
+
+    else:
+        return {"erro": "Período inválido."}, 400
+
+    movimentacoes = (
+        Movimentacao.query
+        .filter(Movimentacao.data >= inicio)
+        .filter(Movimentacao.data <= hoje)
+        .order_by(Movimentacao.data.asc())
+        .all()
+    )
+
+    if period == "year":
+
+        labels = [
+            "Jan", "Fev", "Mar", "Abr",
+            "Mai", "Jun", "Jul", "Ago",
+            "Set", "Out", "Nov", "Dez"
+        ]
+
+        receitas_por_periodo = [0] * 12
+        despesas_por_periodo = [0] * 12
+
+        for movimentacao in movimentacoes:
+
+            indice = movimentacao.data.month - 1
+
+            if movimentacao.tipo == "Receita":
+                receitas_por_periodo[indice] += movimentacao.valor
+
+            else:
+                despesas_por_periodo[indice] += movimentacao.valor
+
+    else:
+
+        datas = []
+
+        data_atual = inicio
+
+        while data_atual <= hoje:
+            datas.append(data_atual)
+            data_atual += timedelta(days=1)
+
+        labels = []
+        receitas_por_periodo = []
+        despesas_por_periodo = []
+
+        for data in datas:
+
+            receita = 0
+            despesa = 0
+
+            for movimentacao in movimentacoes:
+
+                if movimentacao.data == data:
+
+                    if movimentacao.tipo == "Receita":
+                        receita += movimentacao.valor
+
+                    else:
+                        despesa += movimentacao.valor
+
+            labels.append(data.strftime("%d/%m"))
+            receitas_por_periodo.append(receita)
+            despesas_por_periodo.append(despesa)
+
+    return {
+        "periodo": period,
+        "inicio": inicio.strftime("%Y-%m-%d"),
+        "fim": hoje.strftime("%Y-%m-%d"),
+        "labels": labels,
+        "receitas": receitas_por_periodo,
+        "despesas": despesas_por_periodo,
+        "movimentacoes": len(movimentacoes)
+    }
