@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <title>{% block title %}Finance Control{% endblock %}</title>
 </head>
 <body>
@@ -30,6 +32,9 @@
     {% block content %}
     {% endblock %}
 </main>
+
+{% block scripts %}
+{% endblock %}
 
 </body>
 </html>

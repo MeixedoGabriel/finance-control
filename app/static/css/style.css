@@ -103,6 +103,36 @@ main {
     margin-bottom: var(--spacing-md);
 }
 
+.period-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.period-button {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+
+    padding: 8px 16px;
+
+    border-radius: var(--radius-sm);
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.period-button:hover {
+    background-color: var(--color-background);
+}
+
+.period-button.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
 .button {
     text-decoration: none;
     background-color: var(--color-primary);

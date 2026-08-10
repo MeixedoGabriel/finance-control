@@ -192,6 +192,19 @@ def analytics():
             receitas_por_periodo.append(receita)
             despesas_por_periodo.append(despesa)
 
+    movimentacoes_api = []
+
+    for movimentacao in movimentacoes:
+
+        movimentacoes_api.append({
+            "id": movimentacao.id,
+            "descricao": movimentacao.descricao,
+            "valor": movimentacao.valor,
+            "categoria": movimentacao.categoria,
+            "tipo": movimentacao.tipo,
+            "data": movimentacao.data.strftime("%Y-%m-%d")
+        })
+
     return {
         "periodo": period,
         "inicio": inicio.strftime("%Y-%m-%d"),
@@ -199,5 +212,5 @@ def analytics():
         "labels": labels,
         "receitas": receitas_por_periodo,
         "despesas": despesas_por_periodo,
-        "movimentacoes": len(movimentacoes)
+        "movimentacoes": movimentacoes_api
     }
