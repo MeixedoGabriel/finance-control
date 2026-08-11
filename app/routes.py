@@ -160,7 +160,7 @@ def analytics():
                 despesas_por_periodo[indice] += movimentacao.valor
 
     else:
-
+        
         datas = []
 
         data_atual = inicio
@@ -196,21 +196,39 @@ def analytics():
 
     for movimentacao in movimentacoes:
 
+        if period == "year":
+            indice_periodo = movimentacao.data.month - 1
+
+        else:
+            indice_periodo = (movimentacao.data - inicio).days
+
         movimentacoes_api.append({
+
             "id": movimentacao.id,
+
             "descricao": movimentacao.descricao,
+
             "valor": movimentacao.valor,
+
             "categoria": movimentacao.categoria,
+
             "tipo": movimentacao.tipo,
-            "data": movimentacao.data.strftime("%Y-%m-%d")
+
+            "data": movimentacao.data.strftime("%Y-%m-%d"),
+
+            "indice_periodo": indice_periodo
         })
 
     return {
         "periodo": period,
         "inicio": inicio.strftime("%Y-%m-%d"),
         "fim": hoje.strftime("%Y-%m-%d"),
+
         "labels": labels,
+
         "receitas": receitas_por_periodo,
+
         "despesas": despesas_por_periodo,
+
         "movimentacoes": movimentacoes_api
     }
