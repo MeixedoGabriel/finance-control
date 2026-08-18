@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}
+Movimentações | Finance Control
+{% endblock %}
+
+{% block content %}
+
+<section class="card">
+
+    <h2>Histórico de movimentações</h2>
+
+    {% if movimentacoes %}
+
+        {% for movimentacao in movimentacoes %}
+
+            <div class="card-movimentacao">
+
+                <div class="cabecalho-movimentacao">
+
+                    {% if movimentacao.tipo == "Receita" %}
+
+                        <span class="tipo receita">
+                            ⬆ Receita
+                        </span>
+
+                    {% else %}
+
+                        <span class="tipo despesa">
+                            ⬇ Despesa
+                        </span>
+
+                    {% endif %}
+
+                    <span class="data">
+                        {{ movimentacao.data.strftime("%d/%m/%Y") }}
+                    </span>
+
+                </div>
+
+                <h3>
+                    {{ movimentacao.descricao }}
+                </h3>
+
+                <p class="categoria">
+                    {{ movimentacao.categoria }}
+                </p>
+
+                <p class="valor">
+
+                    {% if movimentacao.tipo == "Receita" %}
+
+                        + R$ {{ "%.2f"|format(movimentacao.valor) }}
+
+                    {% else %}
+
+                        - R$ {{ "%.2f"|format(movimentacao.valor) }}
+
+                    {% endif %}
+
+                </p>
+
+                <div class="acoes-movimentacao">
+
+                    <a
+                        href="{{ url_for('main.editar_movimentacao', id=movimentacao.id) }}"
+                        class="button"
+                    >
+                        Editar
+                    </a>
+
+                    <form
+                        action="{{ url_for('main.excluir_movimentacao', id=movimentacao.id) }}"
+                        method="POST"
+                        onsubmit="return confirm('Tem certeza que deseja excluir esta movimentação?')"
+                    >
+
+                        <button
+                            type="submit"
+                            class="button secondary"
+                        >
+                            Excluir
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Nenhuma movimentação cadastrada.</p>
+
+    {% endif %}
+
+    <a href="/" class="btn-voltar">
+        ←
+    </a>
+
+</section>
+
+
+
+{% endblock %}

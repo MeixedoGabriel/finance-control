@@ -1,5 +1,6 @@
 let financeChart;
 let movimentacoesAtuais = [];
+let periodoAtual = "week";
 
 async function carregarDados(periodo) {
 
@@ -185,7 +186,7 @@ async function alterarPeriodo(periodo) {
 
 async function iniciarGrafico() {
 
-    const dados = await carregarDados("week");
+    const dados = await carregarDados(periodoAtual);
 
     criarGrafico(dados);
 
@@ -202,6 +203,8 @@ botoesPeriodo.forEach(botao => {
     botao.addEventListener("click", () => {
 
         const periodo = botao.dataset.period;
+
+        periodoAtual = periodo;
 
         alterarPeriodo(periodo);
 
@@ -286,6 +289,21 @@ function abrirModalMovimentacoes(movimentacoes, indice) {
                         Editar
                     </a>
 
+                    <form
+                        action="/excluir/${movimentacao.id}"
+                        method="POST"
+                        onsubmit="return confirm('Tem certeza que deseja excluir esta movimentação?')"
+                    >
+
+                        <button
+                            type="submit"
+                            class="button secondary"
+                        >
+                            Excluir
+                        </button>
+
+                    </form>
+
                 </div>
             `;
 
@@ -303,6 +321,112 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const botaoFechar =
         document.getElementById("fechar-modal");
+
+    botaoFechar.addEventListener("click", () => {
+
+        modal.classList.remove("ativo");
+
+    });
+
+});
+
+async function carregarCategorias(periodo) {
+
+    const resposta =
+        await fetch(`/api/categories?period=${periodo}`);
+
+    const dados =
+        await resposta.json();
+
+    return dados.categorias;
+}
+
+
+function renderizarCategorias(categorias) {
+
+    const container =
+        document.getElementById("categorias-container");
+
+    if (categorias.length === 0) {
+
+        container.innerHTML = `
+            <p>
+                Nenhuma despesa encontrada neste período.
+            </p>
+        `;
+
+        return;
+    }
+
+    const maiorValor =
+        categorias[0].valor;
+
+    container.innerHTML = "";
+
+    categorias.forEach(categoria => {
+
+        const porcentagem =
+            (categoria.valor / maiorValor) * 100;
+
+        const elemento =
+            document.createElement("div");
+
+        elemento.classList.add("categoria-analise");
+
+        elemento.innerHTML = `
+
+            <div class="categoria-analise-cabecalho">
+
+                <span>
+                    ${categoria.nome}
+                </span>
+
+                <strong>
+                    R$ ${Number(categoria.valor).toFixed(2)}
+                </strong>
+
+            </div>
+
+            <div class="barra-categoria">
+
+                <div
+                    class="barra-categoria-progresso"
+                    style="width: ${porcentagem}%"
+                ></div>
+
+            </div>
+
+        `;
+
+        container.appendChild(elemento);
+
+    });
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal =
+        document.getElementById("modal-analise");
+
+    const botaoAbrir =
+        document.getElementById("abrir-analise-completa");
+
+    const botaoFechar =
+        document.getElementById("fechar-modal-analise");
+
+
+    botaoAbrir.addEventListener("click", async () => {
+
+        modal.classList.add("ativo");
+
+        const categorias =
+            await carregarCategorias(periodoAtual);
+
+        renderizarCategorias(categorias);
+
+    });
+
 
     botaoFechar.addEventListener("click", () => {
 

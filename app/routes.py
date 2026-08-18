@@ -13,6 +13,7 @@ def home():
     movimentacoes = (
         Movimentacao.query
         .order_by(Movimentacao.data.desc())
+        .limit(5)
         .all()
     )
 
@@ -41,6 +42,21 @@ def home():
         total_receitas=total_receitas,
         total_despesas=total_despesas,
         quantidade_movimentacoes=quantidade_movimentacoes
+    )
+
+
+@main.route("/movimentacoes")
+def movimentacoes():
+
+    movimentacoes = (
+        Movimentacao.query
+        .order_by(Movimentacao.data.desc())
+        .all()
+    )
+
+    return render_template(
+        "movimentacoes.html",
+        movimentacoes=movimentacoes
     )
 
 
@@ -231,4 +247,64 @@ def analytics():
         "despesas": despesas_por_periodo,
 
         "movimentacoes": movimentacoes_api
+    }
+
+
+@main.route("/api/categories")
+def categories():
+
+    period = request.args.get("period", "month")
+
+    hoje = date.today()
+
+    if period == "week":
+        inicio = hoje - timedelta(days=6)
+
+    elif period == "month":
+        inicio = hoje.replace(day=1)
+
+    elif period == "year":
+        inicio = hoje.replace(month=1, day=1)
+
+    else:
+        return {"erro": "Período inválido."}, 400
+
+    movimentacoes = (
+        Movimentacao.query
+        .filter(Movimentacao.data >= inicio)
+        .filter(Movimentacao.data <= hoje)
+        .all()
+    )
+
+    categorias = {}
+
+    for movimentacao in movimentacoes:
+
+        if movimentacao.tipo != "Despesa":
+            continue
+
+        categoria = movimentacao.categoria
+
+        if categoria not in categorias:
+            categorias[categoria] = 0
+
+        categorias[categoria] += movimentacao.valor
+
+    categorias_ordenadas = sorted(
+        categorias.items(),
+        key=lambda item: item[1],
+        reverse=True
+    )
+
+    categorias_ordenadas = categorias_ordenadas[:5]
+
+    return {
+        "periodo": period,
+        "categorias": [
+            {
+                "nome": categoria,
+                "valor": valor
+            }
+            for categoria, valor in categorias_ordenadas
+        ]
     }

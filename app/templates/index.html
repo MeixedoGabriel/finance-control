@@ -83,7 +83,60 @@ Início | Finance Control
 
     <canvas id="financeChart"></canvas>
 
+    <div class="analise-completa-container">
+
+        <button
+            type="button"
+            id="abrir-analise-completa"
+            class="button"
+        >
+            Ver análise completa
+        </button>
+
+    </div>
+
 </section>
+
+<div
+    id="modal-analise"
+    class="modal"
+>
+
+    <div class="modal-conteudo">
+
+        <div class="modal-cabecalho">
+
+            <h2>Análise detalhada</h2>
+
+            <button
+                type="button"
+                id="fechar-modal-analise"
+                class="modal-fechar"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-periodo">
+
+            <p class="modal-subtitulo">
+                Principais despesas
+            </p>
+
+        </div>
+
+        <div id="categorias-container">
+
+            <p>
+                Carregando análise...
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
 
 <section class="card">
 
@@ -160,6 +213,13 @@ Início | Finance Control
             <hr>
 
         {% endfor %}
+
+        <a
+            href="{{ url_for('main.movimentacoes') }}"
+            class="button mostrar-mais"
+        >
+            Mostrar mais
+        </a>
 
     {% else %}
 

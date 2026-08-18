@@ -457,6 +457,60 @@ main {
 .acoes-modal {
     display: flex;
     justify-content: flex-end;
-
+    gap: var(--spacing-sm);
     margin-top: var(--spacing-sm);
+}
+
+.mostrar-mais {
+    display: block;
+    width: fit-content;
+    margin: var(--spacing-md) auto 0;
+}
+
+.analise-completa-container {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-md);
+}
+
+.categoria-analise {
+    margin-bottom: var(--spacing-md);
+}
+
+.categoria-analise-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: var(--spacing-sm);
+}
+
+.barra-categoria {
+    width: 100%;
+    height: 10px;
+
+    background-color: var(--color-border);
+
+    border-radius: var(--radius-sm);
+
+    overflow: hidden;
+}
+
+.barra-categoria-progresso {
+    height: 100%;
+
+    background-color: var(--color-primary);
+
+    border-radius: var(--radius-sm);
+
+    transition: width .4s ease;
+}
+
+.modal-subtitulo {
+    color: var(--color-danger);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-md);
 }
