@@ -9,11 +9,15 @@ main = Blueprint("main", __name__)
 
 @main.route("/")
 def home():
-
-    movimentacoes = (
+    ultimas_movimentacoes = (
         Movimentacao.query
         .order_by(Movimentacao.data.desc())
         .limit(5)
+        .all()
+    )
+
+    todas_movimentacoes = (
+        Movimentacao.query
         .all()
     )
 
@@ -21,7 +25,7 @@ def home():
     total_receitas = 0
     total_despesas = 0
 
-    for movimentacao in movimentacoes:
+    for movimentacao in todas_movimentacoes:
 
         if movimentacao.tipo == "Receita":
 
@@ -33,11 +37,11 @@ def home():
             saldo -= movimentacao.valor
             total_despesas += movimentacao.valor
 
-    quantidade_movimentacoes = len(movimentacoes)
+    quantidade_movimentacoes = len(todas_movimentacoes)
 
     return render_template(
         "index.html",
-        movimentacoes=movimentacoes,
+        movimentacoes=ultimas_movimentacoes,
         saldo=saldo,
         total_receitas=total_receitas,
         total_despesas=total_despesas,
@@ -298,12 +302,19 @@ def categories():
 
     categorias_ordenadas = categorias_ordenadas[:5]
 
+    total_despesas = sum(categorias.values())
+
     return {
         "periodo": period,
         "categorias": [
             {
                 "nome": categoria,
-                "valor": valor
+                "valor": valor,
+                "porcentagem": (
+                    (valor / total_despesas) * 100
+                    if total_despesas > 0
+                    else 0
+                )
             }
             for categoria, valor in categorias_ordenadas
         ]

@@ -134,6 +134,10 @@ main {
 }
 
 .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     text-decoration: none;
     background-color: var(--color-primary);
     color: white;
@@ -513,4 +517,87 @@ main {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: var(--spacing-md);
+}
+
+/* ================================
+   RESPONSIVIDADE
+================================ */
+
+@media (max-width: 600px) {
+
+    main {
+        margin: var(--spacing-md) auto;
+        padding: 0 var(--spacing-sm);
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions .button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .period-buttons {
+        width: 100%;
+    }
+
+    .period-button {
+        flex: 1;
+    }
+
+    .card {
+        padding: var(--spacing-md);
+    }
+
+    .cabecalho-movimentacao {
+        gap: var(--spacing-sm);
+    }
+
+    .acoes-movimentacao {
+        flex-direction: column;
+    }
+
+    .acoes-movimentacao .button,
+    .acoes-movimentacao form {
+        width: 100%;
+    }
+
+    .acoes-movimentacao form .button {
+        width: 100%;
+    }
+
+    .acoes-modal {
+        flex-direction: column;
+    }
+
+    .acoes-modal .button,
+    .acoes-modal form {
+        width: 100%;
+    }
+
+    .acoes-modal form .button {
+        width: 100%;
+    }
+
+    .modal {
+        padding: var(--spacing-sm);
+    }
+
+    .modal-conteudo {
+        max-height: 90vh;
+        padding: var(--spacing-md);
+    }
+
+    .btn-voltar {
+        top: 10px;
+        left: 10px;
+        padding: 8px 12px;
+    }
+
 }

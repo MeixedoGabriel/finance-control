@@ -39,8 +39,17 @@ function criarGrafico(dados) {
 
                     fill: true,
 
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: function(context) {
+
+                        return context.raw > 0 ? 4 : 0;
+
+                    },
+
+                    pointHoverRadius: function(context) {
+
+                        return context.raw > 0 ? 6 : 0;
+
+                    }
                 },
 
                 {
@@ -55,8 +64,17 @@ function criarGrafico(dados) {
 
                     fill: true,
 
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: function(context) {
+
+                        return context.raw > 0 ? 4 : 0;
+
+                    },
+
+                    pointHoverRadius: function(context) {
+
+                        return context.raw > 0 ? 6 : 0;
+
+                    }
                 }
             ]
         },
@@ -127,6 +145,18 @@ function criarGrafico(dados) {
             },
 
             scales: {
+
+                x: {
+
+                    ticks: {
+
+                        autoSkip: true,
+
+                        maxTicksLimit: 7
+
+                    }
+
+                },
 
                 y: {
 
@@ -382,7 +412,15 @@ function renderizarCategorias(categorias) {
                 </span>
 
                 <strong>
-                    R$ ${Number(categoria.valor).toFixed(2)}
+                    R$ ${Number(categoria.valor).toLocaleString(
+                        "pt-BR",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    )}
+
+                    (${Number(categoria.porcentagem).toFixed(1)}%)
                 </strong>
 
             </div>
